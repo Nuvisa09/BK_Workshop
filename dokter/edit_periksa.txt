@@ -1,0 +1,92 @@
+<?php
+$kode = $_GET['id'];
+$sql = $koneksi->query("SELECT * FROM jadwal_periksa WHERE id='$kode'");
+$data = $sql->fetch_assoc();
+?> 
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6"> 
+            <h1>General Form</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">General Form</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Quick Example</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form method="POST" action="edit_periksa_act.php?id=<?=$data['id'];?>" onsubmit="return(validate());">
+              
+              <div class="card-body">
+                  <div class="form-group">
+                    <label for="id_dokter">Dokter</label>
+                    <select class="form-control select2" style="width: 100%;" name="id_dokter" aria-label="id_dokter" required value="<?php echo $data['id_dokter'];?>">
+                    <option value="" selected>Pilih Dokter...</option>
+                    <?php
+                                  $result = mysqli_query($koneksi, "SELECT * FROM dokter");
+
+                                  while ($data = mysqli_fetch_assoc($result)) {
+                                      echo "<option value='" . $data['id'] . "'>" . $data['nama'] . "</option>";
+                                  }
+                                  ?>
+
+                  </select>
+                </div>
+                <div class="form-group">
+                    <label for="hari">Hari</label>
+                    <select class="form-control select2" style="width: 100%;" name="hari" aria-label="hari" placeholder="Hari" required value="<?php echo $data['hari'];?>">>
+                      <option value="" selected>Pilih Hari...</option>
+                      <option value="Senin">Senin</option>
+                      <option value="Selasa">Selasa</option>
+                      <option value="Rabu">Rabu</option>
+                      <option value="Kamis">Kamis</option>
+                      <option value="Jumat">Jum'at</option>
+                      <option value="Sabtu">Sabtu</option>
+                    </select>
+                </div>
+                  <div class="form-group">
+                    <label for="jam_mulai">Jam Mulai</label>
+                    <input type="time" class="form-control" id="exampleInputHarga" name="jam_mulai" placeholder="Jam Mulai" required value="<?php echo $data['jam_mulai'];?>" >
+                  </div>
+                  <div class="form-group">
+                  <label for="jam_selesai">Jam Selesai</label>
+                    <input type="time" class="form-control" id="exampleInputHarga" name="jam_selesai" placeholder="Jam Selesai" required  value="<?php echo $data['jam_selesai'];?>">
+                  </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" name="edit" class="btn btn-primary">Edit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!--/.col (left) -->
+          <!-- right column -->
+          <!--/.col (right) -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>

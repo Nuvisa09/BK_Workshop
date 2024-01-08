@@ -1,19 +1,19 @@
 <?php
 include '../conf/koneksi.php';
 ?>
-  <!-- Content Wrapper. Contains page content -->
+ <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard Admin</h1>
+            <h1 class="m-0">Dashboard Pasien</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard Admin</li>
+              <li class="breadcrumb-item active">Dashboard Pasien</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -46,14 +46,14 @@ include '../conf/koneksi.php';
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h2> <b>Admin</b></h2>
+                <h2> <b>Obat</b></h2>
 
-                <p>Admin</p>
+                <p>List obat</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-              <a href="?page=riwayat_poli" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="list_obat.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->

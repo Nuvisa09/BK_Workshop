@@ -37,7 +37,7 @@
                with font-awesome or any other icon font library -->
          
             <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="../pasien" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                     Dashboard
@@ -46,7 +46,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="?page=daftar_poli" class="nav-link">
+                <a href="poli.php" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                     Poli
@@ -56,7 +56,7 @@
             </li>
               <li class="nav-header">SETTINGS</li>
                 <li class="nav-item">
-                    <a href="?keluar" class="nav-link">
+                    <a href="../conf/keluar.php" class="nav-link">
                     <i class="fas fa-sign-out-alt"></i>
                     <p>Logout</p>
                     </a>

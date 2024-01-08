@@ -1,82 +1,80 @@
-<?php
-include '../conf/koneksi.php';
-?>
- <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard Dokter</h1>
-          </div><!-- /.col -->
+            <h1>Data Periksa</h1>
+          </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard Dokter</li>
+              <li class="breadcrumb-item active">Data Periksa</li>
             </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
+          </div>
+        </div>
       </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+    </section>
 
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
         <div class="row">
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h2><b>Dashboard Dokter</b></h2>
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 >List Daftar Periksa</h3>
+                <!-- <a href="?page=tambah_obat" class="btn btn-primary"> Add obat</a> -->
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Daftar Poli</th>
+                    <th>Tanggal Periksa</th>
+                    <th>Catatan</th>
+                    <th>Biaya Periksa</th>
+                    <th>Aksi</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    include "../conf/koneksi.php";
+                    $no = 1;
+                    $sql = $koneksi->query ("SELECT *FROM periksa");
+                    while ($data = $sql->fetch_assoc()){
 
-                <p>Home</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h2> <b>Dokter</b></h2>
+                    ?>
 
-                <p>Dokter</p>
+                    <tr>
+                        <td><?php echo $no++; ?></td>
+                        <td><?php echo $data['id_daftar_poli']; ?></td>
+                        <td><?php echo $data['tgl_periksa']; ?></td>
+                        <td><?php echo $data['catatan']; ?></td>
+                        <td><?php echo $data['biaya_periksa']; ?> <br><a href="detail_periksa.php" class="btn btn-success"><i class="fas fa-edit"></i>Detail Periksa</a></td>
+
+                        <td>
+                            <a href="index.php" class="btn btn-success">Selesai</a>
+                            <a href="index.php" class="btn btn-danger"><i class="fas fa-undo"></i> Kembali </a>
+                        </td>
+                    </tr>
+                    <?php
+                    }
+                    ?>
+                  </tfoot>
+                </table>
               </div>
-              <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-              </div>
-              <a href="?page=riwayat_poli" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <!-- /.card-body -->
             </div>
+            <!-- /.card -->
           </div>
-          <!-- ./col -->
+          <!-- /.col -->
         </div>
         <!-- /.row -->
-        <!-- Main row -->  
-        <div class="row">
-          <!-- Left col -->
-          <section class="col-lg-7 connectedSortable">
-            <!-- Custom tabs (Charts with tabs)-->
-
-            <!-- /.card -->
-          </section>
-          <!-- /.Left col -->
-          <!-- right col (We are only adding the ID to make the widgets sortable)-->
-          <section class="col-lg-5 connectedSortable">
-
-            <!-- /.card -->
-          </section>
-          <!-- right col -->
-        </div>
-        <!-- /.row (main row) -->
-      </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>

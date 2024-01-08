@@ -1,3 +1,9 @@
+<?php
+include '../template/topmenu.php';
+include '../template/sidemenu_admin.php';
+include '../conf/koneksi.php';
+
+?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -24,7 +30,7 @@
             <div class="card">
               <div class="card-header">
                 <h3 >List Obat</h3>
-                <a href="?page=tambah_obat" class="btn btn-primary"> Add obat</a>
+                <a href="tambah_obat.php" class="btn btn-primary"> Add obat</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -40,7 +46,7 @@
                   </thead>
                   <tbody>
                     <?php
-                    include "../conf/koneksi_dua.php";
+                    include "../conf/koneksi.php";
                     $no = 1;
                     $sql = $koneksi->query ("SELECT *FROM obat");
                     while ($data = $sql->fetch_assoc()){
@@ -54,8 +60,8 @@
                         <td><?php echo $data['harga']; ?></td>
 
                         <td>
-                            <a href="?page=edit_obat&aksi=edit&id=<?php echo $data['id'];?>" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
-                            <a href="?page=hapus_obat&aksi=hapus&id=<?php echo $data['id'];?>" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</a>
+                            <a href="edit_obat.php?&aksi=edit&id=<?php echo $data['id'];?>" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="hapus_obat.php?&aksi=hapus&id=<?php echo $data['id'];?>" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</a>
                         </td>
                     </tr>
                     <?php
@@ -76,3 +82,8 @@
     </section>
     <!-- /.content -->
   </div>
+
+  
+<?php
+include '../template/footer.php';
+?>

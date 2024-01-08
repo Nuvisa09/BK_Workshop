@@ -13,7 +13,7 @@ if(isset($_POST['login'])){
     $password = $_POST ['password'];
     if($username == 'admin' or $password == 'admin'){
       $_SESSION['admin_username'] = 'admin';
-      header('location:../admin');
+      header('location:../admin/index.php');
       exit();
     // }else{
     //     $err .= "<li>Silakan Masukkan Username dan Password</li>";
@@ -22,11 +22,13 @@ if(isset($_POST['login'])){
         $sql1 = "SELECT * FROM pasien WHERE nama = '$username'";
         $q1 = mysqli_query($koneksi, $sql1);
         $r1 = mysqli_fetch_array ($q1);
+        $_session['no_rm'] = $r1['no_rm'];
         if($r1['password'] != md5($password)){
             $err .= "<li> Akun tidak ditemukan </li>";
         }else{
 
         }$_SESSION ['admin_username'] = $username;
+        
         // $_session ['admin_akses'] = $akses;
         header ("location:../pasien");
         exit();

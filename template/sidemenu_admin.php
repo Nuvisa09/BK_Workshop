@@ -37,7 +37,7 @@
                with font-awesome or any other icon font library -->
          
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="../admin" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Dashboard
@@ -46,7 +46,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="../admin/dokter.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Dokter
@@ -55,7 +55,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="../admin/pasien.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Pasien
@@ -65,7 +65,7 @@
           </li>
          
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="../admin/poli.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Poli
@@ -74,7 +74,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="../admin/obat" class="nav-link">
+            <a href="../admin/list_obat.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Obat

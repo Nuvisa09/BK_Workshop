@@ -1,5 +1,5 @@
 <?php
-include '../conf/koneksi_dua.php';
+include '../conf/koneksi.php';
 
 if(isset($_POST['edit'])){
   
@@ -15,12 +15,12 @@ if(isset($_POST['edit'])){
         $sql = $koneksi->query("UPDATE detail_periksa SET id_periksa='$id_periksa', id_obat='$id_obat' WHERE id=$id");
         echo "<script type='text/javascript'>
                 alert ('Data Berhasil Di Edit');
-                window.location.href='home.php?page=list_obat'; 
+                window.location.href='index.php'; 
                 </script>";
     }else{
         echo "<script type='text/javascript'>
         alert ('Data Gagal Di Edit');
-        window.location.href='home.php?page=list_obat'; 
+        window.location.href='index.php'; 
         </script>";
     }
 }

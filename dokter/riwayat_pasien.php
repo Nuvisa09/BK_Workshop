@@ -1,3 +1,10 @@
+<?php
+session_start();
+include '../template/topmenu.php';
+include '../template/sidemenu_dokter.php';
+include '../conf/koneksi.php';
+?>
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -41,7 +48,7 @@
                   </thead>
                   <tbody>
                     <?php
-                    include "../conf/koneksi_dua.php";
+                    include "../conf/koneksi.php";
                     $no = 1;
                     $sql = $koneksi->query ("SELECT *FROM periksa");
                     while ($data = $sql->fetch_assoc()){
@@ -68,7 +75,7 @@
                     
               </div>
                     <div class="card-footer">
-                      <a href="?page=dashboard" class="btn btn-danger"><i class="fas fa-undo"></i> Kembali</a>
+                      <a href="index.php" class="btn btn-danger"><i class="fas fa-undo"></i> Kembali</a>
                     </div>
               <!-- /.card-body -->
             </div>
@@ -82,3 +89,7 @@
     </section>
     <!-- /.content -->
   </div>
+
+  <?php
+include '../template/footer.php';
+?>

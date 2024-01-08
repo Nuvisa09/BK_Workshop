@@ -37,16 +37,16 @@
                with font-awesome or any other icon font library -->
          
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="../dokter" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Dashboard
+                Dashboard Dokter
                 <span class="right badge badge-danger">Dokter</span>
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="../dokter/jadwalPeriksa.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 JadwalPeriksa
@@ -55,7 +55,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="../dokter/periksa.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Memeriksa Pasien
@@ -65,7 +65,7 @@
           </li>
          
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="../dokter/riwayat_pasien.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Riwayat Pasien
@@ -84,7 +84,7 @@
           </li>
               <li class="nav-header">SETTINGS</li>
                 <li class="nav-item">
-                    <a href="?keluar" class="nav-link">
+                    <a href="../conf/keluar.php" class="nav-link">
                     <i class="fas fa-sign-out-alt"></i>
                     <p>Logout</p>
                     </a>

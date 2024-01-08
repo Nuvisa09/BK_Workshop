@@ -78,7 +78,12 @@ if (mysqli_query($koneksi, $query)){
   $_SESSION['no_rm'] = $row['no_rm'];
   
   // Redirect ke halaman dashboard
-  header('location:../pasien');
+  echo "
+        <script> 
+            alert('Berhasil Registrasi dan mednapatkan nomor RM');
+            document.location='../pasien';
+      </script>
+    ";
   exit();
 }else{
   echo "Error: " . $query . "<br>" . mysqli_error($koneksi);

@@ -27,6 +27,10 @@ include '../conf/koneksi.php';
             include 'riwayat_pasien.php';
             break;
 
+        case 'jadwal_periksa';
+            include 'jadwal_periksa.php';
+            break;
+
         case 'detail_periksa';
             include 'detail_periksa.php';
             break;

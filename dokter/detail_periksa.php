@@ -39,7 +39,7 @@
                   </thead>
                   <tbody>
                     <?php
-                    include "../conf/koneksi_dua.php";
+                    include "../conf/koneksi.php";
                     $no = 1;
                     $sql = $koneksi->query ("SELECT *FROM detail_periksa");
                     while ($data = $sql->fetch_assoc()){
