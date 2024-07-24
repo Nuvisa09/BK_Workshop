@@ -3,6 +3,21 @@ session_start();
 include '../template/topmenu.php';
 include '../template/sidemenu_dokter.php';
 include '../conf/koneksi.php';
+
+if(isset($_SESSION['login'])){
+  $_SESSION['login'] = true;
+}else{
+  echo "<meta http-equiv='refresh' content = '0; url=../conf/login_dokter.php'>";
+  die();
+}
+
+$nama = $_SESSION['username'];
+$akses = $_SESSION['akses'];
+
+if($akses != 'dokter'){
+  echo "<meta http-equiv='refresh' content = '0; url=../..'>";
+  die();
+}
 ?>
 
 <div class="content-wrapper">
@@ -91,5 +106,25 @@ include '../conf/koneksi.php';
   </div>
 
   <?php
+  $no = 1;
+  $pasien_id =$d['id'];
+  $data2 = $pdo->query("SELECT
+                        p.nama AS 'nama_pasien,
+                        pr.*,
+                        d.nama AS 'nama_dokter,
+                        dpo.keluhan AS 'keluhan',
+                        GROUP_CONCAT (o.nama_obat SEPARATOR ', ') AS 'obat'
+                        FROM periksa pr
+                        LEFT JOIN daftar_poli dpo ON (pr.id_daftar_poli = dpo.id)
+                        LEFT JOIN jadwal_periksa jp ON (dpo.id_jadwal = jp.id)
+                        LEFT JOIN dokter d ON (jp.id_dokter = d.id)
+                        LEFT JOIN pasien p ON (dpo.id_pasien = p.id_
+                        LEFT JOIN detail_periksa dp ON (pr.id = dp.id_periksa)
+                        LEFT JOIN obat o ON (dp.id_obat = o.id)
+                        where dpo.id_pasien ='$pasien_id'
+                        GROUP BY pr.id
+                        ORDER BY pr.tgl_periksa DESC;
+                        
+                        ");
 include '../template/footer.php';
 ?>

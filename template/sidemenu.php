@@ -2,9 +2,9 @@
 
 session_start();
 include("../conf/koneksi.php");
-if(!isset($_SESSION['admin_username'])){
-    header("location:../conf/login.php");
-}
+// if(!isset($_SESSION['admin_username'])){
+//     header("location:../conf/login.php");
+// }
 
 ?>
 

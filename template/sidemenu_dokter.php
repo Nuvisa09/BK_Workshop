@@ -21,7 +21,7 @@
       <!-- SidebarSearch Form -->
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <input id="searchInput" class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
           <div class="input-group-append">
             <button class="btn btn-sidebar">
               <i class="fas fa-search fa-fw"></i>
@@ -49,13 +49,13 @@
             <a href="../dokter/jadwalPeriksa.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                JadwalPeriksa
+                Jadwal Periksa
                 <span class="right badge badge-danger">Dokter</span>
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="../dokter/periksa.php" class="nav-link">
+            <a href="../dokter/memeriksa.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Memeriksa Pasien

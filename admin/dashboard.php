@@ -1,5 +1,22 @@
 <?php
+session_start();
+include '../template/topmenu.php';
+include '../template/sidemenu_admin.php';
 include '../conf/koneksi.php';
+if(isset($_SESSION['login'])){
+  $_SESSION['login'] = true;
+}else{
+  header('Location: ../conf/login.php');
+  exit();
+}
+
+$nama = $_SESSION['username'];
+$akses = $_SESSION['akses'];
+
+if($akses != 'admin'){
+  echo "<meta http-equiv='refresh' content = '0; url=../..'>";
+  die();
+}
 ?>
  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -8,12 +25,12 @@ include '../conf/koneksi.php';
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard Pasien</h1>
+            <h1 class="m-0">Dashboard Admin</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard Pasien</li>
+              <li class="breadcrumb-item active">Dashboard Admin</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -80,3 +97,7 @@ include '../conf/koneksi.php';
     </section>
     <!-- /.content -->
   </div>
+
+  <?php
+include '../template/footer.php';
+?>

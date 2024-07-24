@@ -1,7 +1,23 @@
 <?php
+session_start();
 include '../template/topmenu.php';
 include '../template/sidemenu_admin.php';
 include '../conf/koneksi.php';
+
+if(isset($_SESSION['login'])){
+  $_SESSION['login'] = true;
+}else{
+  echo "<meta http-equiv='refresh' content = '0; url=../conf/login.php'>";
+  die();
+}
+
+$nama = $_SESSION['username'];
+$akses = $_SESSION['akses'];
+
+if($akses != 'admin'){
+  echo "<meta http-equiv='refresh' content = '0; url=../..'>";
+  die();
+}
 ?>
 
 <?php
@@ -72,16 +88,16 @@ if (isset($_GET['aksi'])) {
               <form method="POST" action="obat_act.php" enctype="multipart/form-data">
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Nama Obat</label>
-                    <input type="teks" class="form-control" id="exampleInputNamaObat" name="nama_obat" placeholder="Nama Obat" required> 
+                    <label for="nama_obat">Nama Obat</label>
+                    <input type="teks" class="form-control" id="nama_obat" name="nama_obat" placeholder="Nama Obat" required> 
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Kemasan</label>
-                    <input type="tekx" class="form-control" id="exampleInputKemasan" name="kemasan" placeholder="Kemasan" required>
+                    <label for="kemasan">Kemasan</label>
+                    <input type="tekx" class="form-control" id="kemasan" name="kemasan" placeholder="Kemasan" required>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Harga</label>
-                    <input type="teks" class="form-control" id="exampleInputHarga" name="harga" placeholder="Harga" required>
+                    <label for="harga">Harga</label>
+                    <input type="teks" class="form-control" id="harga" name="harga" placeholder="Harga" required>
                   </div>
                   <div class="form-group">
                 </div>

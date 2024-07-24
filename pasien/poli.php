@@ -3,11 +3,52 @@
 session_start();
 
 include '../conf/koneksi.php';
-// mysqli_query($koneksi,"SELECT * FROM pasien");
-// $no_rm = $_SESSION['no_rm'];
+
+if(isset($_SESSION['login'])){
+  $_SESSION['login'] = true;
+}else{
+  echo "<meta http-equiv='refresh' content = '0; url=../conf/login.php'>";
+  die();
+}
+
+$nama = $_SESSION['username'];
+$akses = $_SESSION['akses'];
+$id_pasien = $_SESSION['id'];
+$no_rm = $_SESSION['no_rm'];
+
+if($akses != 'pasien'){
+  echo "<meta http-equiv='refresh' content = '0; url=../..'>";
+  die();
+}
+
 
 include '../template/topmenu.php';
 include '../template/sidemenu_pasien.php';
+
+if(isset($_POST['submit'])){
+  if ($_POST['id_jadwal']== "900"){
+    echo "
+        <script>
+          alert('Jadwal tidak boleh kosong!');
+        </script>
+    ";
+    echo "<meta http-equiv='refresh' content='0>";
+  }
+  
+  if(daftarpoli($_POST) > 0){
+    echo "
+        <script>
+          alert('berhasil mendaftar poli');
+        </script>
+    ";
+  }else{
+    echo "
+        <script>
+          alert('Gagal mendaftar poli');
+        </script>
+    ";
+  }
+}
 
 if (isset($_GET['aksi'])) {
   if ($_GET['aksi'] == 'hapus') {
@@ -55,7 +96,7 @@ if (isset($_GET['aksi'])) {
       <div class="container-fluid">
         <div class="row">
           <!-- left column -->
-          <div class="col-md-6">
+          <div class="col-md-4">
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
@@ -64,93 +105,75 @@ if (isset($_GET['aksi'])) {
               <!-- /.card-header -->
               <!-- form start -->
 
-              <form method="POST" action="poli_act.php" onsubmit="return(validate());">
-              <input type="hidden" value="<?= $id_pasien?>" name="id_pasien">
-              <?php
-                    $id_pasien = '';
-                    $no_rm = '';
-                    $id_jadwal = '';
-                    $keluhan = '';
-                    if (isset($_GET['id'])) {
-                        $ambil = mysqli_query($koneksi, "SELECT * FROM daftar_poli 
-                                WHERE id='" . $_GET['id'] . "'");
-                        while ($row = mysqli_fetch_array($ambil)) {
-                            $id_pasien = $row['id_pasien'];
-                            $no_rm = $row['no_rm']
-;                            $id_jadwal = $row['jadwal_periksa'];
-                            $keluhan = $row['keluharn'];
-                        }
-                    ?>
-                    <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
-                    <?php
-                    }
-                    ?>  
+              <form method="POST" action="" >
+              <input type="hidden" value="<?= $id_pasien?>" name="id_pasien"> 
               <div class="card-body">
                   <div class="form-group">
                     <label for="no_rm">Nomor rekam Medis</label>
-                    <input type="teks" class="form-control" id="exampleInputNamaObat" name="no_rm" placeholder="Nomor Rekam Medis" value="<?=$no_rm?>" required> 
+                    <input type="texs" class="form-control" id="exampleInputNamaObat" name="no_rm" placeholder="Nomor Rekam Medis" value="<?=$no_rm?>" required> 
                     
                   </div>
                   <div class="form-group">
-                    <label for="inputNama">Nama Poli</label>
+                    <label for="inputPoli">Nama Poli</label>
                     <select id="inputPoli" class="form-control select2" style="width: 100%;" aria-label="hari"  required>>
-                      <option value="" selected>Pilih Poli</option>
+                      <option selected>Pilih Poli</option>
                       <?php
-                        $result = mysqli_query($koneksi, "SELECT * FROM poli");
-                        while ($data = mysqli_fetch_assoc($result)) {
-                          echo "<option value='" . $data['id'] . "'>" . $data['nama_poli'] . "</option>";
+                        $data =mysqli_query($koneksi, "SELECT * FROM poli");
+                        // $data->execute();
+                        if(mysqli_num_rows($data)==0){
+                          echo "<option> Tidak ada poli</option>";
+                        }else{
+                          while ($d = mysqli_fetch_assoc($data)){
+                            ?>
+                            <option value="<?=$d['id']?>"><?= $d['nama_poli']?></option>
+                            <?php
+                          }
                         }
                       ?>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="hari">Jadwal Dokter</label>
-                    <select id="inputJadwal" class="form-control select2" style="width: 100%;" name="id_jadwal" aria-label="hari"  required>>
-                      <option value="900" selected>Pilih Jadwal</option>
-                      <?php
-                        $result = mysqli_query($koneksi, "SELECT * FROM dokter");
-                        while ($data = mysqli_fetch_assoc($result)) {
-                          echo "<option value='" . $data['id'] . "'>" . $data['nama'] . "</option>";
-                        }
-                      ?>
+                    <label for="inputJadwal">Pilih Jadwal</label>
+                    <select id="inputJadwal" class="form-control select2" style="width: 100%;" name="id_jadwal" required>
+                        <option value="900">Open this select menu</option>
                     </select>
+                    
                 </div>
                   <div class="form-group">
                     <label for="inputKeterangan">Keluhan</label>
-                    <textarea style="width:100%;" name="keluhan" rows="5" cols="40"><?php echo $keluhan;?></textarea>
+                    <textarea style="width:100%;" id="keluhan" name="keluhan" rows="3" ></textarea>
                   </div>
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
+                  <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
                 </div>
               </form>
             </div>
           </div>
-          <div class="col-12">
+          <div class="col-8">
             <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">List poli</h3>
+                <h3 class="card-title">Riwayat Daftar Poli</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>No</th>
-                    <th>Nama</th>
-                    <th>Keterangan</th>
-                    <th>Hari</th>
-                    <th>Mulai</th>
-                    <th>Selesai</th>
-                    <th>Antrian</th>
-                    <th>Aksi</th>
+                    <th scope='col'>No</th>
+                    <th scope='col'>Poli</th>
+                    <th scope='col'>Dokter</th>
+                    <th scope='col'>Hari</th>
+                    <th scope='col'>Mulai</th>
+                    <th scope='col'>Selesai</th>
+                    <th scope='col'>Antrian</th>
+                    <th scope='col'>Aksi</th>
                   </tr>
                   </thead>
-                  <tbody>
                   <?php
-                    $result = ("SELECT  d.nama_poli as poli_nama,
+                    $poli_query = mysqli_query ($koneksi,"SELECT  d.nama_poli as poli_nama,
                                 c.nama as dokter_nama,
                                 b.hari as jadwal_hari,
                                 b.jam_mulai as jadwal_mulai,
@@ -168,37 +191,42 @@ if (isset($_GET['aksi'])) {
                                   ON c.id_poli = d.id
                                 WHERE a.id_pasien = '$id_pasien'
                                 ORDER BY a.id desc");
-                    $poli_result = mysqli_query($koneksi, $result);
-                    if (!$poli_result) {
-                      die("Query error: " . mysqli_error($koneksi));
-                    }
-                    $rowCount = mysqli_num_rows($poli_result);
-                    $no = 1;
-                    if($rowCount == 0){
-                      echo "Tidak ada data";
+                    $no = 0;
+                    if(mysqli_num_rows($poli_query) == 0){
+                      echo "<tr><td colspan='8'> Tidak ada data</td></rt>";
                     } else {
-                        while ($data = mysqli_fetch_array($poli_result)) {
+                        while ($p = mysqli_fetch_array($poli_query)) {
+                          ++$no;
                           ?>
-                      <tr>;
-                        <td><?php echo $no++ ?></td>
-                        <td><?php echo $data['nama_poli'] ?></td>
-                        <td><?php echo $data['nama'] ?></td>
-                        <td><?php echo $data['hari'] ?></td>
-                        <td><?php echo $data['jam_mulai'] ?></td>
-                        <td><?php echo $data['jam_selesai'] ?></td>
-                        <td><?php echo $data['antrian'] ?></td>
-                        <td>                    
-                          <a href="detail_poli.php/<?php echo $data['poli_id'];?>" class="btn btn-success"><i class="fas fa-edit"></i> detail</a>
-                          </a>
+                      <tr>
+                          <th scope="row">
+                            <?php
+                              if($no == 1)
+                                if($no == 1){
+                                  echo "<span class = 'badge badge-info'>New</span>";
+                                }else{
+                                  echo $no;
+                                }
+                              
+                            ?>
+                          </th>
+                          <td><?= $p['poli_nama'] ?></td>
+                          <td><?= $p['dokter_nama'] ?></td>
+                          <td><?= $p['jadwal_hari'] ?></td>
+                          <td><?= $p['jadwal_mulai'] ?></td>
+                          <td><?= $p['jadwal_selesai'] ?></td>
+                          <td><?= $p['antrian'] ?></td>
+                          <td>                    
+                            <a href="detail_poli.php?id=<?= $p['poli_id']?>">
+                            <button class="btn btn-success btn-sm"><i class="fas fa-eye"></i> Detail</button>
+                            </a>
 
                         </td>
                       </tr>
-                      <?php
-                        }
-                        }
-                             
+                    <?php
+                       }
+                     }     
                    ?>
-                  </tfoot>
                 </table>
               </div>
               <!-- /.card-body -->
@@ -231,7 +259,7 @@ if (isset($_GET['aksi'])) {
         //konfigurasi permintaan Ajax
         xhr.open('GET','http://localhost/bk_workshop/pasien/get_Jadwal.php?poli_id=' +poliId, true);
 
-        xhr.setrequestHeader('Content-Type', 'text/html');
+        xhr.setRequestHeader('Content-Type', 'text/html');
 
         //atur fungsi callback ketika permintaan selesai
         xhr.onload = function(){
@@ -252,3 +280,5 @@ if (isset($_GET['aksi'])) {
 <?php
 include '../template/footer.php';
 ?>
+
+

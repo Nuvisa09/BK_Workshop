@@ -3,53 +3,51 @@ session_start();
 // if(isset($_SESSION['admin_username'])){
 //     header("location:../pasien");
 // }
-include ("koneksi.php");
+
+
+include("koneksi.php");
 $username = "";
 $password = "";
 $err = "";
  
-if(isset($_POST['login'])){
-    $username = $_POST ['nama'];
-    $password = $_POST ['password'];
-    if($username == 'admin' or $password == 'admin'){
-      $_SESSION['admin_username'] = 'admin';
-      header('location:../admin/index.php');
-      exit();
+if(isset($_POST['submit'])){
+  $username = $_POST ['nama'];
+  $password = $_POST ['password'];
+  if($username == 'admin' or $password == 'admin'){
+    $_SESSION['login']= true;
+    $_SESSION['id'] = null;
+    $_SESSION['username'] = 'admin';
+    $_SESSION['akses'] = 'admin';
+    header('location:../admin/dashboard.php');
+    exit();
     // }else{
     //     $err .= "<li>Silakan Masukkan Username dan Password</li>";
     }
     else{
-        $sql1 = "SELECT * FROM pasien WHERE nama = '$username'";
-        $q1 = mysqli_query($koneksi, $sql1);
+      $sql1 = "SELECT * FROM pasien WHERE nama = '$username'";
+      $q1 = mysqli_query($koneksi, $sql1);
+      if(mysqli_num_rows($q1)==1){
         $r1 = mysqli_fetch_array ($q1);
-        $_session['no_rm'] = $r1['no_rm'];
         if($r1['password'] != md5($password)){
-            $err .= "<li> Akun tidak ditemukan </li>";
+              $err .= "<li> Akun tidak ditemukan </li>";
+          }else{
+            $_SESSION['login']= true;
+            $_SESSION['id'] = $r1['id'];
+            $_SESSION['username'] = $r1['nama'];
+            $_SESSION['no_rm'] = $r1['no_rm'];
+            $_SESSION['akses'] = 'pasien';
+            header ("location:../pasien");
+            exit();
+          }
         }else{
+          $err .= "<li> akun tidak ditemukan </li>";
+        }
 
-        }$_SESSION ['admin_username'] = $username;
-        
-        // $_session ['admin_akses'] = $akses;
-        header ("location:../pasien");
-        exit();
-    }
-    // if(empty($err)){
-    //   $id = $r1['id'];
-    //   $sql1 = "select * from admin_akses where id = '$id' ";
-    //   $q1 = mysqli_query($koneksi, $sql1);
-    //   while($r1 = mysqli_fetch_array($q1)){
-    //     $akses[] = $r1['akses_id'];
-    //   }
-    //   if(empty($akses)){
-    //     $err .= "<li>Kamu tidak memiliki akses ke halaman admin</li>";
-    //    }
     // }
-    // if(empty($err)){
-    //     $_SESSION ['admin_username'] = $username;
-    //     // $_session ['admin_akses'] = $akses;
-    //     header ("location:../pasien/home.php");
-    //     exit();
-    // }
+    $_SESSION['error'] = 'username dan Password tidak cocok';
+    header("location: ../conf/login.php");
+    exit();
+}
 }
 ?>
 
@@ -100,6 +98,9 @@ if(isset($_POST['login'])){
             </div>
           </div>
         </div>
+        <?php if (isset ($_SESSION['error'])):?>
+            <p style="color: red; font-style: italic; margin-bottom:1 rem;"><?php echo $_SESSION['error']; unset($_SESSION['error']);?></p>
+        <?php endif ?>
         <div class="row">
           <div class="col-8">
             <div class="mb-0">
@@ -108,7 +109,7 @@ if(isset($_POST['login'])){
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button name="login" type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <button name="submit" type="submit" class="btn btn-primary btn-block">Sign In</button>
           </div>
           <!-- /.col -->
         </div>
@@ -129,4 +130,47 @@ if(isset($_POST['login'])){
 </body>
 </html>
 
+<?php
+// session_start();
 
+// if (isset($_POST['submit'])) {
+//     include("koneksi.php");
+
+//     $username = stripslashes($_POST['nama']);
+//     $password = $_POST['password'];
+
+//     if ($username == 'admin' && $password == 'admin') {
+//         $_SESSION['login'] = true;
+//         $_SESSION['id'] = null;
+//         $_SESSION['username'] = 'admin';
+//         $_SESSION['akses'] = 'admin';
+//         header('Location: ../admin');
+//         exit();
+//     } else {
+//         $query = "SELECT * FROM pasien WHERE nama = '$username'";
+        
+//         try {
+//             $result = $koneksi->query($query);
+
+//             if ($result->num_rows == 1) {
+//                 $baris = $result->fetch_assoc();
+//                 if ($password == $baris['password']) {
+//                     $_SESSION['login'] = true;
+//                     $_SESSION['id'] = $baris['id'];
+//                     $_SESSION['username'] = $baris['nama'];
+//                     $_SESSION['no_rm'] = $baris['no_rm'];
+//                     $_SESSION['akses'] = 'pasien';
+//                     header('Location: ../pasien');
+//                     exit();
+//                 }
+//             }
+//         } catch (Exception $e) {
+//             $_SESSION['error'] = $e->getMessage();
+//         }
+//     }
+
+//     $_SESSION['error'] = 'Username dan Password Tidak Cocok';
+//     header('Location: ../conf/login.php');
+//     exit();
+// }
+?>

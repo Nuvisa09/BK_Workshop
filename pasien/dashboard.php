@@ -1,6 +1,7 @@
 <?php
 include '../conf/koneksi.php';
-?>
+
+// ?>
  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -80,3 +81,7 @@ include '../conf/koneksi.php';
     </section>
     <!-- /.content -->
   </div>
+
+  <?php
+include '../template/footer.php';
+?>

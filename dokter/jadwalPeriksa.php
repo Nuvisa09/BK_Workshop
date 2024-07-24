@@ -1,10 +1,28 @@
 
 <?php
+ session_start();
 include '../template/topmenu.php';
 include '../template/sidemenu_dokter.php';
-include '../conf/koneksi.php';
+
+if(isset($_SESSION['login'])){
+  $_SESSION['login'] = true;
+}else{
+  echo "<meta http-equiv='refresh' content = '0; url=../conf/login_dokter.php'>";
+  die();
+}
+
+$nama = $_SESSION['username'];
+$akses = $_SESSION['akses'];
+
+if($akses != 'dokter'){
+  echo "<meta http-equiv='refresh' content = '0; url=../..'>";
+  die();
+}
 ?>
 <?php
+// if (!isset($_SESSION)) {
+//   session_start();
+// }
 include '../conf/koneksi.php';
 if (isset($_GET['aksi'])) {
   if ($_GET['aksi'] == 'hapus') {
@@ -81,8 +99,7 @@ if (isset($_GET['aksi'])) {
                     $jam_mulai = '';
                     $jam_selesai = '';
                     if (isset($_GET['id'])) {
-                        $ambil = mysqli_query($koneksi, "SELECT * FROM jadwal_periksa 
-                                WHERE id='" . $_GET['id'] . "'");
+                        $ambil = mysqli_query($koneksi, "SELECT * FROM jadwal_periksa WHERE id='" . $_GET['id'] . "'");
                         while ($row = mysqli_fetch_array($ambil)) {
                             $id_dokter = $row['id_dokter'];
                             $hari = $row['hari'];
@@ -100,12 +117,12 @@ if (isset($_GET['aksi'])) {
                     <select class="form-control select2" style="width: 100%;" name="id_dokter" aria-label="id_dokter">
                     <option value="" selected>Pilih Dokter...</option>
                     <?php
-                                  $result = mysqli_query($koneksi, "SELECT * FROM dokter");
+                      $result = mysqli_query($koneksi, "SELECT * FROM dokter");
 
-                                  while ($data = mysqli_fetch_assoc($result)) {
-                                      echo "<option value='" . $data['id'] . "'>" . $data['nama'] . "</option>";
-                                  }
-                                  ?>
+                      while ($data = mysqli_fetch_assoc($result)) {
+                      echo "<option value='" . $data['id'] . "'>" . $data['nama'] . "</option>";
+                      }
+                    ?>
 
                   </select>
                 </div>
@@ -164,36 +181,38 @@ if (isset($_GET['aksi'])) {
            </thead>
            <tbody>
            <?php
-             $result = mysqli_query($koneksi, "SELECT dokter.nama, jadwal_periksa.id, jadwal_periksa.hari, 
-             jadwal_periksa.jam_mulai, jadwal_periksa.jam_selesai, jadwal_periksa.status FROM dokter JOIN 
-             jadwal_periksa ON dokter.id = jadwal_periksa.id_dokter");
+             $result = mysqli_query($koneksi, "SELECT dokter.nama, jadwal_periksa.id, jadwal_periksa.hari, jadwal_periksa.jam_mulai, jadwal_periksa.jam_selesai, jadwal_periksa.status FROM dokter JOIN jadwal_periksa ON dokter.id = jadwal_periksa.id_dokter");
+             if (!$result) {
+              die("Error executing query: " . mysqli_error($koneksi));
+             }
              $no = 1;
              while ($data = mysqli_fetch_array($result)) :
+              
            ?>
-           <tr>
-             <td><?php echo $no++ ?></td>
-             <td><?php echo $data['nama'] ?></td>
-             <td><?php echo $data['hari'] ?></td>
-             <td><?php echo $data['jam_mulai'] ?> WIB</td>
-             <td><?php echo $data['jam_selesai'] ?> WIB</td>
-             <td>
-             
-               <a href="?page=jadwalPeriksa&aksi=edit&id=<?php echo $data['id'];?>" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
-               <a href="?page=jadwalPeriksa&aksi=hapus&id=<?php echo $data['id'];?>" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</a>   
-             </td>
-             <td>
-               <?php
-               if ($data['status'] == 0) {
-                   echo '<a class="btn btn-sm btn-success" href="status.php?id=' . $data['id'] . '&status=1">Belum</a>';
-               } else {
-                   echo '<a class="btn btn-sm btn-danger" href="status.php?id=' . $data['id'] . '&status=0">Sudah</a>';
-               }
-               ?>
-           </td>
-           </tr>
+              <tr>
+                <td><?php echo $no++ ?></td>
+                <td><?php echo $data['nama'] ?></td>
+                <td><?php echo $data['hari'] ?></td>
+                <td><?php echo $data['jam_mulai'] ?> WIB</td>
+                <td><?php echo $data['jam_selesai'] ?> WIB</td>
+                <td>
+                
+                  <a href="?page=jadwalPeriksa&aksi=edit&id=<?php echo $data['id'];?>" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
+                  <a href="?page=jadwalPeriksa&aksi=hapus&id=<?php echo $data['id'];?>" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</a>   
+                </td>
+                <td>
+                  <?php
+                      if ($data['status'] == 0) {
+                          echo '<a class="btn btn-sm btn-success" href="status.php?id=' . $data['id'] . '&status=1">Belum</a>';
+                      } else {
+                          echo '<a class="btn btn-sm btn-danger" href="status.php?id=' . $data['id'] . '&status=0">Sudah</a>';
+                      }
+                  ?>
+                </td>
+              </tr>
 
            <?php endwhile; ?>
-           </tfoot>
+           </tbody>
          </table>
        </div>
        <!-- /.card-body -->
